@@ -5,6 +5,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "resources_people")
@@ -46,10 +47,34 @@ public class People {
     @Column (name = "gender", nullable = true)
     private String gender;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "resources_film_characters",
+            joinColumns = @JoinColumn(name = "people_id"),
+            inverseJoinColumns = @JoinColumn(name = "film_id"))
+    private List<Film> films;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "resources_species_people",
+            joinColumns = @JoinColumn(name = "people_id"),
+            inverseJoinColumns = @JoinColumn(name = "species_id"))
+    private List<Species> species;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "resources_vehicles_pilots",
+            joinColumns = @JoinColumn(name = "people_id"),
+            inverseJoinColumns = @JoinColumn(name = "vehicle_id"))
+    private List<Vehicle> vehicles;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "resources_starship_pilots",
+            joinColumns = @JoinColumn(name = "people_id"),
+            inverseJoinColumns = @JoinColumn(name = "starship_id"))
+    private List<Starship> starships;
+
     public People() {
     }
 
-    public People(Date createdAt, Date editedAt, String name, String height, String mass, String hair_color, String skin_color, String eye_color, String birth_year, String gender) {
+    public People(Date createdAt, Date editedAt, String name, String height, String mass, String hair_color, String skin_color, String eye_color, String birth_year, String gender, List<Film> films, List<Species> species, List<Vehicle> vehicles, List<Starship> starships) {
         this.createdAt = createdAt;
         this.editedAt = editedAt;
         this.name = name;
@@ -60,6 +85,10 @@ public class People {
         this.eye_color = eye_color;
         this.birth_year = birth_year;
         this.gender = gender;
+        this.films = films;
+        this.species = species;
+        this.vehicles = vehicles;
+        this.starships = starships;
     }
 
     public Date getCreatedAt() {
@@ -140,5 +169,37 @@ public class People {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public List<Film> getFilms() {
+        return films;
+    }
+
+    public void setFilms(List<Film> films) {
+        this.films = films;
+    }
+
+    public List<Species> getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(List<Species> species) {
+        this.species = species;
+    }
+
+    public List<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(List<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+
+    public List<Starship> getStarships() {
+        return starships;
+    }
+
+    public void setStarships(List<Starship> starships) {
+        this.starships = starships;
     }
 }

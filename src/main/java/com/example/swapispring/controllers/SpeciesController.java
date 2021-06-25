@@ -1,8 +1,8 @@
 package com.example.swapispring.controllers;
 
 import com.example.swapispring.exceptions.ResourceNotFoundException;
-import com.example.swapispring.models.People;
-import com.example.swapispring.repositories.PeopleRepository;
+import com.example.swapispring.models.Species;
+import com.example.swapispring.repositories.SpeciesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,20 +14,20 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/")
-public class PeopleController {
+public class SpeciesController {
     @Autowired
-    private PeopleRepository peopleRepository;
+    private SpeciesRepository speciesRepository;
 
-    @GetMapping("/people")
-    public List<People> getAllUnits() {
-        return peopleRepository.findAll();
+    @GetMapping("/species")
+    public List<Species> getAllUnits() {
+        return speciesRepository.findAll();
     }
 
-    @GetMapping("/people/{id}")
-    public ResponseEntity<People> getUnitsById(@PathVariable(value = "id") Long id)
+    @GetMapping("/species/{id}")
+    public ResponseEntity<Species> getUnitsById(@PathVariable(value = "id") Long id)
             throws ResourceNotFoundException {
-        People unit =
-                peopleRepository
+        Species unit =
+                speciesRepository
                         .findById(id)
                         .orElseThrow(() -> new ResourceNotFoundException(id));
         return ResponseEntity.ok().body(unit);

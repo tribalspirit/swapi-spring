@@ -5,6 +5,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "resources_film")
@@ -37,10 +38,37 @@ public class Film {
     @Column (name = "producer", nullable = true)
     private String producer;
 
+    @Column (name = "release_date", nullable = true)
+    private String releaseDate;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "resources_film_characters",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "people_id"))
+    private List<People> characters;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "resources_film_planets",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "planet_id"))
+    private List<Planet> planets;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "resources_film_starships",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "starship_id"))
+    private List<Starship> starships;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "resources_film_species",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "sprcies_id"))
+    private List<Species> species;
+
     public Film() {
     }
 
-    public Film(Date createdAt, Date editedAt, String title, Integer episode_id, String opening_crawl, String director, String producer) {
+    public Film(Date createdAt, Date editedAt, String title, Integer episode_id, String opening_crawl, String director, String producer, String releaseDate, List<People> characters, List<Planet> planets, List<Starship> starships, List<Species> species) {
         this.createdAt = createdAt;
         this.editedAt = editedAt;
         this.title = title;
@@ -48,6 +76,11 @@ public class Film {
         this.opening_crawl = opening_crawl;
         this.director = director;
         this.producer = producer;
+        this.releaseDate = releaseDate;
+        this.characters = characters;
+        this.planets = planets;
+        this.starships = starships;
+        this.species = species;
     }
 
     public Date getCreatedAt() {
@@ -104,5 +137,45 @@ public class Film {
 
     public void setProducer(String producer) {
         this.producer = producer;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public List<People> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(List<People> characters) {
+        this.characters = characters;
+    }
+
+    public List<Planet> getPlanets() {
+        return planets;
+    }
+
+    public void setPlanets(List<Planet> planets) {
+        this.planets = planets;
+    }
+
+    public List<Starship> getStarships() {
+        return starships;
+    }
+
+    public void setStarships(List<Starship> starships) {
+        this.starships = starships;
+    }
+
+    public List<Species> getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(List<Species> species) {
+        this.species = species;
     }
 }

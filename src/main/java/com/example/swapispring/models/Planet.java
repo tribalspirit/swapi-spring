@@ -4,7 +4,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import javax.persistence.JoinColumn;
 import java.util.Date;
 import java.util.List;
 
@@ -45,25 +44,16 @@ public class Planet {
     @Column (name = "surface_water", nullable = true)
     private String surfaceWater;
 
-    @Column (name = "url", nullable = true)
-    private String gender;
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "resource_films_planets",
-            joinColumns = @JoinColumn(name = "film_id"),
-            inverseJoinColumns = @JoinColumn(name = "planet_id"))
-    private List<Planet> planets;
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "resource_films_characters",
-            joinColumns = @JoinColumn(name = "film_id"),
-            inverseJoinColumns = @JoinColumn(name = "people_id"))
-    private List<People> characters;
+    @JoinTable(name = "resources_film_planets",
+            joinColumns = @JoinColumn(name = "planet_id"),
+            inverseJoinColumns = @JoinColumn(name = "film_id"))
+    private List<Film> films;
 
     public Planet() {
     }
 
-    public Planet(Date createdAt, Date editedAt, String name, String diameter, String rotationPeriod, String orbitalPeriod, String gravity, String climate, String surfaceWater, String gender, List<Planet> planets, List<People> characters) {
+    public Planet(Date createdAt, Date editedAt, String name, String diameter, String rotationPeriod, String orbitalPeriod, String gravity, String climate, String surfaceWater, List<Film> films) {
         this.createdAt = createdAt;
         this.editedAt = editedAt;
         this.name = name;
@@ -73,9 +63,7 @@ public class Planet {
         this.gravity = gravity;
         this.climate = climate;
         this.surfaceWater = surfaceWater;
-        this.gender = gender;
-        this.planets = planets;
-        this.characters = characters;
+        this.films = films;
     }
 
     public Date getCreatedAt() {
@@ -150,27 +138,12 @@ public class Planet {
         this.surfaceWater = surfaceWater;
     }
 
-    public String getGender() {
-        return gender;
+    public List<Film> getFilms() {
+        return films;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setFilms(List<Planet> planets) {
+        this.films = films;
     }
 
-    public List<Planet> getPlanets() {
-        return planets;
-    }
-
-    public void setPlanets(List<Planet> planets) {
-        this.planets = planets;
-    }
-
-    public List<People> getCharacters() {
-        return characters;
-    }
-
-    public void setCharacters(List<People> characters) {
-        this.characters = characters;
-    }
 }
